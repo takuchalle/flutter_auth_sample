@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'pages/root_page.dart';
+
 @immutable
 class App extends StatelessWidget {
   const App({Key key}) : super(key: key);
@@ -10,7 +12,7 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Scaffold(),
+      home: const RootPage(),
     );
   }
 }
