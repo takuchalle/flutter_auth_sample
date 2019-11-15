@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "869891527058",
+    "firebase_url": "https://askme-6f244.firebaseio.com",
+    "project_id": "askme-6f244",
+    "storage_bucket": "askme-6f244.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:869891527058:android:a1fe0ef75265f9d25b314b",
+        "android_client_info": {
+          "package_name": "dev.takuchalle.flutter_auth_sample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "869891527058-rl1dktbq1onhhqnc1vu1rjbd115d0n0e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_Sh5Tn94MppB1vgdKYcRpm0QcsgDX3yA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "869891527058-rl1dktbq1onhhqnc1vu1rjbd115d0n0e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "869891527058-fmufkeobeesjjfahcbbv70v4mlsrsqrm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "dev.takuchalle.askme"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
