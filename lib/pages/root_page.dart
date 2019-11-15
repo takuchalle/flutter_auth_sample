@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../auth/authenticator.dart';
+import 'home_page.dar.dart';
+import 'login_page.dart';
 
 @immutable
 class RootPage extends StatelessWidget {
@@ -10,6 +12,16 @@ class RootPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final auth = Provider.of<Authenticator>(context, listen: false);
 
-    return Scaffold();
+    return StreamBuilder(
+      stream: auth.onAuthStateChanged,
+      builder: (c, s) {
+        print(s.connectionState);
+        if (s.hasData) {
+          return const HomePage();
+        } else {
+          return const LoginPage();
+        }
+      },
+    );
   }
 }
