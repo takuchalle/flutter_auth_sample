@@ -5,7 +5,7 @@ import 'app.dart';
 import 'auth/authenticator.dart';
 
 void main() => runApp(
-      Provider<Authenticator>(
+      ChangeNotifierProvider<Authenticator>(
         builder: (_) => Authenticator(),
         child: const App(),
       ),
