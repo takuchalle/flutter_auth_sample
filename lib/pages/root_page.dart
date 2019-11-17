@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../auth/authenticator.dart';
 import 'home_page.dar.dart';
 import 'login_page.dart';
+import 'splash_screen.dart';
 
 @immutable
 class RootPage extends StatelessWidget {
@@ -15,6 +16,10 @@ class RootPage extends StatelessWidget {
     return StreamBuilder(
       stream: auth.onAuthStateChanged,
       builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const SplashScreen();
+        }
+
         if (snapshot.hasData) {
           return const HomePage();
         } else {
