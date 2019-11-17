@@ -8,12 +8,12 @@ class HomePage extends StatelessWidget {
   const HomePage({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<Authenticator>(context, listen: false);
+    final auth = Provider.of<Authenticator>(context);
     return Scaffold(
       body: Center(
         child: RaisedButton(
           child: const Text('Logout'),
-          onPressed: auth.signOut,
+          onPressed: auth.status == AuthStatus.inProgress ? null : auth.signOut,
         ),
       ),
     );

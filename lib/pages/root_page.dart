@@ -14,9 +14,8 @@ class RootPage extends StatelessWidget {
 
     return StreamBuilder(
       stream: auth.onAuthStateChanged,
-      builder: (c, s) {
-        print(s.connectionState);
-        if (s.hasData) {
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
           return const HomePage();
         } else {
           return const LoginPage();
