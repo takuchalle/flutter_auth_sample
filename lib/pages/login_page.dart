@@ -10,6 +10,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final auth = Provider.of<Authenticator>(context);
     return Scaffold(
+      appBar: AppBar(),
       body: Center(
         child: RaisedButton(
           child: const Text('Login'),

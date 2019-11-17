@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../auth/authenticator.dart';
+import '../models/models.dart';
 
 @immutable
 class HomePage extends StatelessWidget {
@@ -9,11 +10,20 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<Authenticator>(context);
+    final account = Provider.of<Account>(context);
     return Scaffold(
+      appBar: AppBar(),
       body: Center(
-        child: RaisedButton(
-          child: const Text('Logout'),
-          onPressed: auth.status == AuthStatus.inProgress ? null : auth.signOut,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Text('uid: ${account.uid}'),
+            RaisedButton(
+              child: const Text('Logout'),
+              onPressed:
+                  auth.status == AuthStatus.inProgress ? null : auth.signOut,
+            ),
+          ],
         ),
       ),
     );
