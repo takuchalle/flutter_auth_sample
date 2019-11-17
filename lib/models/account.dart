@@ -1,5 +1,16 @@
 class Account {
-  Account(this.uid);
+  factory Account(String uid, Account old) {
+    if (uid == old?.uid) return old;
+    old?.dispose();
+
+    if (uid == null) {
+      return null;
+    } else {
+      return Account._(uid);
+    }
+  }
+
+  Account._(this.uid);
 
   String uid;
 
