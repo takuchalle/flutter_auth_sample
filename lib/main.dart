@@ -11,9 +11,9 @@ void main() => runApp(
           ChangeNotifierProvider(
             builder: (_) => Authenticator(),
           ),
-          Provider(
-            builder: (context) => Account(
-              Provider.of<Authenticator>(context, listen: false),
+          ChangeNotifierProvider(
+            builder: (context) => AccountNotifier(
+              authenticator: Provider.of(context, listen: false),
             ),
           ),
         ],

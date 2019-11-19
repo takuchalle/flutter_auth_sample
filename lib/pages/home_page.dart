@@ -10,7 +10,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<Authenticator>(context);
-    final account = Provider.of<Account>(context);
+    final account = Provider.of<AccountNotifier>(context).account;
     return Scaffold(
       appBar: AppBar(),
       body: Center(

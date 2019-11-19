@@ -1,26 +1,9 @@
-import 'dart:async';
-
-import 'package:firebase_auth/firebase_auth.dart';
-
-import '../auth/authenticator.dart';
-
 class Account {
-  Account(this.authenticator) {
-    _subscription = authenticator.onAuthStateChanged.listen(
-      (user) {
-        _user = user;
-      },
-    );
-  }
+  Account(this._uid, {bool isFirst = false}) : _isFirst = isFirst;
 
-  String get uid => _user?.uid;
+  String get uid => _uid;
+  bool get isFirst => _isFirst;
 
-  final Authenticator authenticator;
-  StreamSubscription _subscription;
-  FirebaseUser _user;
-
-  void dispose() {
-    print('disposed');
-    _subscription.cancel();
-  }
+  String _uid;
+  bool _isFirst;
 }
