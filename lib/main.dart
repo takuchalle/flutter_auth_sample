@@ -8,13 +8,13 @@ import 'models/models.dart';
 void main() => runApp(
       MultiProvider(
         providers: [
-          ChangeNotifierProvider<Authenticator>(
+          ChangeNotifierProvider(
             builder: (_) => Authenticator(),
           ),
-          ProxyProvider<Authenticator, Account>(
-            builder: (_, auth, old) => Account(auth.user?.uid, old),
-            dispose: (_, account) => account?.dispose(),
-            updateShouldNotify: (a, b) => a?.uid != b?.uid,
+          Provider(
+            builder: (context) => Account(
+              Provider.of<Authenticator>(context, listen: false),
+            ),
           ),
         ],
         child: const App(),

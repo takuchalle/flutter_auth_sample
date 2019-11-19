@@ -1,20 +1,26 @@
-class Account {
-  factory Account(String uid, Account old) {
-    if (uid == old?.uid) return old;
-    old?.dispose();
+import 'dart:async';
 
-    if (uid == null) {
-      return null;
-    } else {
-      return Account._(uid);
-    }
+import 'package:firebase_auth/firebase_auth.dart';
+
+import '../auth/authenticator.dart';
+
+class Account {
+  Account(this.authenticator) {
+    _subscription = authenticator.onAuthStateChanged.listen(
+      (user) {
+        _user = user;
+      },
+    );
   }
 
-  Account._(this.uid);
+  String get uid => _user?.uid;
 
-  String uid;
+  final Authenticator authenticator;
+  StreamSubscription _subscription;
+  FirebaseUser _user;
 
   void dispose() {
     print('disposed');
+    _subscription.cancel();
   }
 }
