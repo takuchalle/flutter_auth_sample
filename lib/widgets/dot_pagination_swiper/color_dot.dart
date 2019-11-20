@@ -12,9 +12,12 @@ class ColorDot extends StatelessWidget {
     Color color = this.color ?? Theme.of(context).primaryColor;
     double radius = this.radius ?? 5;
 
-    return CircleAvatar(
-      foregroundColor: color,
-      radius: radius,
+    return Padding(
+      padding: const EdgeInsets.all(1),
+      child: CircleAvatar(
+        foregroundColor: color,
+        radius: radius,
+      ),
     );
   }
 }
