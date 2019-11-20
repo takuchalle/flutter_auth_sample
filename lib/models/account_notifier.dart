@@ -16,4 +16,9 @@ class AccountNotifier extends ChangeNotifier {
 
   Account _account;
   final Authenticator authenticator;
+
+  void markAsRead() {
+    _account.markAsRead();
+    notifyListeners();
+  }
 }

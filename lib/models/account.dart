@@ -6,4 +6,6 @@ class Account {
 
   String _uid;
   bool _isFirst;
+
+  void markAsRead() => _isFirst = false;
 }
