@@ -1,9 +1,9 @@
+import 'package:dot_pagination_swiper/dot_pagination_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:undraw/undraw.dart';
 
 import '../models/models.dart';
-import '../widgets/dot_pagination_swiper/dot_pagination_swiper.dart';
 
 @immutable
 class WelcomePage extends StatelessWidget {
