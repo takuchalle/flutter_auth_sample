@@ -1,56 +1,47 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
+import 'package:subscription_holder/subscription_holder.dart';
 
 import '../models/models.dart';
 
-class Authenticator extends ChangeNotifier {
+class Authenticator {
   Authenticator() {
-    _accountController = StreamController<Account>();
-    _auth.onAuthStateChanged.distinct((a, b) => a?.uid == b?.uid).listen(
-          (user) => _accountController.sink
-              .add(user != null ? Account(user.uid) : null),
-        );
+    _accountController = StreamController<UserDoc>();
+    _holder.add(
+      _auth.onAuthStateChanged
+          .distinct((a, b) => a?.uid == b?.uid)
+          .listen((user) {
+        if (user != null) {
+          final userDoc = UserDoc.fromFirebaseUser(user);
+          _accountController.add(userDoc);
+        }
+      }),
+    );
   }
 
-  Stream<Account> get onAuthStateChanged => _accountController.stream;
-
-  AuthStatus get status => _status;
+  Stream<UserDoc> get onAuthStateChanged =>
+      _accountController.stream.distinct((a, b) => a?.id == b?.id);
 
   final _auth = FirebaseAuth.instance;
-  AuthStatus _status = AuthStatus.loggedOut;
-  StreamController<Account> _accountController;
+  StreamController<UserDoc> _accountController;
+  SubscriptionHolder _holder = SubscriptionHolder();
 
   Future<void> signIn() async {
-    _updateStatus(AuthStatus.inProgress);
     final result = await _auth.signInAnonymously();
-    final user = result.user;
-    _accountController.sink
-        .add(Account(user.uid, isFirst: result.additionalUserInfo.isNewUser));
-    _updateStatus(AuthStatus.loggedIn);
+    final userDoc = UserDoc.fromFirebaseUser(result.user);
+    final _userRef = UsersRef.ref().docRef(userDoc.id);
+    await _userRef.set(userDoc.entity);
+    _accountController.add(userDoc);
   }
 
   Future<void> signOut() async {
-    _updateStatus(AuthStatus.inProgress);
     await _auth.signOut();
-    _updateStatus(AuthStatus.loggedOut);
+    _accountController.add(null);
   }
 
-  void _updateStatus(AuthStatus status) {
-    _status = status;
-    notifyListeners();
-  }
-
-  @override
   void dispose() {
+    _holder.dispose();
     _accountController.close();
-    super.dispose();
   }
-}
-
-enum AuthStatus {
-  loggedOut,
-  inProgress,
-  loggedIn,
 }

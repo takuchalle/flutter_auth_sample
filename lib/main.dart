@@ -5,18 +5,21 @@ import 'app.dart';
 import 'auth/authenticator.dart';
 import 'models/models.dart';
 
-void main() => runApp(
-      MultiProvider(
-        providers: [
-          ChangeNotifierProvider(
-            builder: (_) => Authenticator(),
-          ),
-          ChangeNotifierProvider(
-            builder: (context) => AccountNotifier(
-              authenticator: Provider.of(context, listen: false),
-            ),
-          ),
-        ],
-        child: const App(),
-      ),
-    );
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  runApp(
+    MultiProvider(
+      providers: [
+        Provider(
+          create: (_) => Authenticator(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AccountNotifier(
+              authenticator: Provider.of(context, listen: false)),
+        ),
+      ],
+      child: const App(),
+    ),
+  );
+}

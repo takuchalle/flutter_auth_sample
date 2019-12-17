@@ -14,7 +14,7 @@ class LoginPage extends StatelessWidget {
       body: Center(
         child: RaisedButton(
           child: const Text('Login'),
-          onPressed: auth.status == AuthStatus.inProgress ? null : auth.signIn,
+          onPressed: auth.signIn,
         ),
       ),
     );

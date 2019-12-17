@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_auth_sample/auth/authenticator.dart';
 
-import 'account.dart';
+import 'user.dart';
 
 class AccountNotifier extends ChangeNotifier {
   AccountNotifier({@required this.authenticator})
@@ -12,13 +12,8 @@ class AccountNotifier extends ChangeNotifier {
     });
   }
 
-  Account get account => _account;
+  UserDoc get account => _account;
 
-  Account _account;
+  UserDoc _account;
   final Authenticator authenticator;
-
-  void markAsRead() {
-    _account.markAsRead();
-    notifyListeners();
-  }
 }

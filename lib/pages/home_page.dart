@@ -17,11 +17,10 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Text('uid: ${account.uid}'),
+            Text('uid: ${account.id}'),
             RaisedButton(
               child: const Text('Logout'),
-              onPressed:
-                  auth.status == AuthStatus.inProgress ? null : auth.signOut,
+              onPressed: auth.signOut,
             ),
           ],
         ),
