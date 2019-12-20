@@ -1,23 +1,13 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:subscription_holder/subscription_holder.dart';
 
 import '../models/models.dart';
 
 class Authenticator {
   Authenticator() {
     _accountController = StreamController<UserDoc>();
-    _holder.add(
-      _auth.onAuthStateChanged
-          .distinct((a, b) => a?.uid == b?.uid)
-          .listen((user) {
-        if (user != null) {
-          final userDoc = UserDoc.fromFirebaseUser(user);
-          _accountController.add(userDoc);
-        }
-      }),
-    );
+    checkCurrentUser();
   }
 
   Stream<UserDoc> get onAuthStateChanged =>
@@ -25,7 +15,6 @@ class Authenticator {
 
   final _auth = FirebaseAuth.instance;
   StreamController<UserDoc> _accountController;
-  SubscriptionHolder _holder = SubscriptionHolder();
 
   Future<void> signIn() async {
     final result = await _auth.signInAnonymously();
@@ -40,8 +29,15 @@ class Authenticator {
     _accountController.add(null);
   }
 
+  Future<void> checkCurrentUser() async {
+    final user = await _auth.currentUser();
+    if (user != null) {
+      final userDoc = UserDoc.fromFirebaseUser(user);
+      _accountController.add(userDoc);
+    }
+  }
+
   void dispose() {
-    _holder.dispose();
     _accountController.close();
   }
 }

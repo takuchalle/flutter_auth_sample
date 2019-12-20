@@ -14,7 +14,7 @@ class RootPage extends StatelessWidget {
     if (notify.account != null) {
       return const HomePage();
     } else {
-      return const LoginPage();
+      return LoginPage.create();
     }
   }
 }
