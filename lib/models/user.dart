@@ -62,8 +62,8 @@ class UsersRef extends CollectionRef<User, UserDoc> {
   UsersRef.ref()
       : super(
           ref: firestoreInstance.collection(collection),
-          decoder: _UserDocDecoder(),
-          encoder: _UserEncoder(),
+          decoder: UserDocDecoder(),
+          encoder: UserEncoder(),
         );
 
   static const collection = 'users';
@@ -78,7 +78,7 @@ class UsersRef extends CollectionRef<User, UserDoc> {
   }
 }
 
-class _UserDocDecoder extends DocumentDecoder<UserDoc> {
+class UserDocDecoder extends DocumentDecoder<UserDoc> {
   @override
   UserDoc decode(DocumentSnapshot snapshot) {
     return UserDoc(
@@ -88,7 +88,7 @@ class _UserDocDecoder extends DocumentDecoder<UserDoc> {
   }
 }
 
-class _UserEncoder extends EntityEncoder<User> {
+class UserEncoder extends EntityEncoder<User> {
   @override
   Map<String, dynamic> encode(User entity) => entity.toJson();
 }

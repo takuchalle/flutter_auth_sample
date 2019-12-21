@@ -19,8 +19,19 @@ class Authenticator {
   Future<void> signIn() async {
     final result = await _auth.signInAnonymously();
     final userDoc = UserDoc.fromFirebaseUser(result.user);
-    final _userRef = UsersRef.ref().docRef(userDoc.id);
-    await _userRef.set(userDoc.entity);
+    if (result.additionalUserInfo.isNewUser) {
+      final userRef = UsersRef.ref().docRef(userDoc.id);
+      final groupRef = GroupsRef.ref().docRef();
+      final groupDoc = GroupDoc.create(groupRef.ref.documentID);
+      final memberRef = MembersRef.ref(groupDoc.id).docRef(userDoc.id);
+      {
+        final batch = groupRef.bach();
+        await userRef.set(userDoc.entity, batch: batch);
+        await groupRef.set(groupDoc.entity, batch: batch);
+        await memberRef.set(userDoc.entity, batch: batch);
+        await batch.commit();
+      }
+    }
     _accountController.add(userDoc);
   }
 
