@@ -12,7 +12,7 @@ class RootPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final notify = Provider.of<AccountNotifier>(context);
     if (notify.account != null) {
-      return const HomePage();
+      return HomePage.create(notify);
     } else {
       return LoginPage.create();
     }

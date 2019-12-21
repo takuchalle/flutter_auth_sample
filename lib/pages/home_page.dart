@@ -4,23 +4,41 @@ import 'package:provider/provider.dart';
 import '../auth/authenticator.dart';
 import '../models/models.dart';
 
+class _ViewModel extends ChangeNotifier {
+  _ViewModel({@required this.notify, @required this.auth});
+  final AccountNotifier notify;
+  final Authenticator auth;
+
+  UserDoc get account => notify.account;
+}
+
 @immutable
 class HomePage extends StatelessWidget {
-  const HomePage({Key key}) : super(key: key);
+  const HomePage._({Key key}) : super(key: key);
+
+  static Widget create(AccountNotifier notify) {
+    return ChangeNotifierProvider(
+      create: (context) => _ViewModel(
+        notify: notify,
+        auth: Provider.of<Authenticator>(context, listen: false),
+      ),
+      child: const HomePage._(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<Authenticator>(context);
-    final account = Provider.of<AccountNotifier>(context).account;
+    final model = Provider.of<_ViewModel>(context);
     return Scaffold(
       appBar: AppBar(),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Text('uid: ${account.id}'),
+            Text('uid: ${model.account.id}'),
             RaisedButton(
               child: const Text('Logout'),
-              onPressed: auth.signOut,
+              onPressed: model.auth.signOut,
             ),
           ],
         ),
