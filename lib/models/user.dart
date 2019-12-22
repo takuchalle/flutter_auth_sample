@@ -43,6 +43,15 @@ class User extends Entity {
             createdAt: parseCreatedAt(json),
             updatedAt: parseUpdatedAt(json));
 
+  User copyWith({String name, String profileURL}) {
+    return User(
+      name: name != null ? name : this.name,
+      profileURL: profileURL != null ? profileURL : this.profileURL,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+    );
+  }
+
   Map<String, dynamic> toJson() => <String, dynamic>{
         UserField.name: name,
         UserField.profileURL: profileURL,

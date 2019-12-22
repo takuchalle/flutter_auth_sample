@@ -11,12 +11,13 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        Provider(
+        ChangeNotifierProvider(
           create: (_) => Authenticator(),
         ),
-        ChangeNotifierProvider(
-          create: (context) => AccountNotifier(
-              authenticator: Provider.of(context, listen: false)),
+        ChangeNotifierProxyProvider<Authenticator, AccountNotifier>(
+          create: (context) => null,
+          update: (context, auth, notify) =>
+              AccountNotifier(account: auth.currentUser),
         ),
       ],
       child: const App(),

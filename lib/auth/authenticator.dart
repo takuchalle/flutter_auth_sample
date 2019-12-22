@@ -1,20 +1,24 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../models/models.dart';
 
-class Authenticator {
+class Authenticator extends ChangeNotifier {
   Authenticator() {
+    _currentUser = null;
     _accountController = StreamController<UserDoc>();
     checkCurrentUser();
   }
 
   Stream<UserDoc> get onAuthStateChanged =>
       _accountController.stream.distinct((a, b) => a?.id == b?.id);
+  UserDoc get currentUser => _currentUser;
 
   final _auth = FirebaseAuth.instance;
   StreamController<UserDoc> _accountController;
+  UserDoc _currentUser;
 
   Future<void> signIn() async {
     final result = await _auth.signInAnonymously();
@@ -32,23 +36,31 @@ class Authenticator {
         await batch.commit();
       }
     }
-    _accountController.add(userDoc);
+    _changeAccount(userDoc);
   }
 
   Future<void> signOut() async {
     await _auth.signOut();
-    _accountController.add(null);
+    _changeAccount(null);
   }
 
   Future<void> checkCurrentUser() async {
     final user = await _auth.currentUser();
     if (user != null) {
       final userDoc = UserDoc.fromFirebaseUser(user);
-      _accountController.add(userDoc);
+      _changeAccount(userDoc);
     }
   }
 
-  void dispose() {
-    _accountController.close();
+  void _changeAccount(UserDoc account) {
+    _currentUser = account;
+    _accountController.add(account);
+    notifyListeners();
+  }
+
+  @override
+  void dispose() async {
+    await _accountController.close();
+    super.dispose();
   }
 }

@@ -1,19 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_auth_sample/auth/authenticator.dart';
+import 'package:subscription_holder/subscription_holder.dart';
 
 import 'user.dart';
 
 class AccountNotifier extends ChangeNotifier {
-  AccountNotifier({@required this.authenticator})
-      : assert(authenticator != null) {
-    authenticator.onAuthStateChanged.listen((account) {
-      _account = account;
-      notifyListeners();
-    });
+  AccountNotifier({@required UserDoc account}) : _account = account {
+    if (_account != null) {
+      _holder.add(
+        _ref.document().listen(
+          (user) {
+            _account = user;
+            notifyListeners();
+          },
+        ),
+      );
+    }
   }
 
   UserDoc get account => _account;
+  UserRef get _ref => UsersRef.ref().docRef(account.id);
 
   UserDoc _account;
-  final Authenticator authenticator;
+  SubscriptionHolder _holder = SubscriptionHolder();
+
+  Future<void> updateName(String name) async {
+    final user = account.entity.copyWith(name: name);
+    await _ref.merge(user);
+  }
+
+  @override
+  void dispose() {
+    print('dispose');
+    _holder.dispose();
+    super.dispose();
+  }
 }
