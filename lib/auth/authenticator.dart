@@ -8,7 +8,7 @@ import '../models/models.dart';
 class Authenticator extends ChangeNotifier {
   Authenticator() {
     _currentUser = null;
-    _accountController = StreamController<UserDoc>();
+    _accountController = StreamController<UserDoc>.broadcast();
     checkCurrentUser();
   }
 

@@ -5,8 +5,7 @@ import '../auth/authenticator.dart';
 import '../models/models.dart';
 
 class _ViewModel extends ChangeNotifier {
-  _ViewModel({@required this.notify, @required this.auth});
-  final AccountNotifier notify;
+  _ViewModel({@required this.auth});
   final Authenticator auth;
 
   UserDoc _account;
@@ -38,7 +37,7 @@ class _ChangeNameFormState extends State<ChangeNameForm> {
 
   @override
   Widget build(BuildContext context) {
-    final notify = Provider.of<AccountNotifier>(context);
+    final notify = Provider.of<AccountNotifier>(context, listen: false);
     return Column(
       children: <Widget>[
         TextField(
@@ -65,10 +64,9 @@ class _ChangeNameFormState extends State<ChangeNameForm> {
 class HomePage extends StatelessWidget {
   const HomePage._({Key key}) : super(key: key);
 
-  static Widget create(AccountNotifier notify) {
+  static Widget create() {
     return ChangeNotifierProvider(
       create: (context) => _ViewModel(
-        notify: notify,
         auth: Provider.of<Authenticator>(context, listen: false),
       ),
       child: const HomePage._(),

@@ -30,7 +30,6 @@ class AccountNotifier extends ChangeNotifier {
 
   @override
   void dispose() {
-    print('dispose');
     _holder.dispose();
     super.dispose();
   }

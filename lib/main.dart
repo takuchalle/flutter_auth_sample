@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import 'app.dart';
 import 'auth/authenticator.dart';
-import 'models/models.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,11 +12,6 @@ void main() {
       providers: [
         ChangeNotifierProvider(
           create: (_) => Authenticator(),
-        ),
-        ChangeNotifierProxyProvider<Authenticator, AccountNotifier>(
-          create: (context) => null,
-          update: (context, auth, notify) =>
-              AccountNotifier(account: auth.currentUser),
         ),
       ],
       child: const App(),
