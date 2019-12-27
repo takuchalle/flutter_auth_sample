@@ -23,8 +23,8 @@ class UserDoc extends Document<User> {
       : super(
             user.uid,
             User(
-              name: user.displayName,
-              profileURL: user.photoUrl,
+              name: user.displayName ?? 'no name',
+              profileURL: user.photoUrl ?? 'https://i.pravatar.cc/',
             ));
 }
 
