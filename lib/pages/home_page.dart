@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../auth/authenticator.dart';
 import '../models/models.dart';
+import '../pages/user_setting_page.dart';
 
 class _ViewModel extends ChangeNotifier {
   _ViewModel({@required this.auth});
@@ -60,6 +61,31 @@ class _ChangeNameFormState extends State<ChangeNameForm> {
   }
 }
 
+class AppDrawer extends StatelessWidget {
+  const AppDrawer({Key key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    final notify = Provider.of<AccountNotifier>(context);
+    return Drawer(
+      child: Column(
+        children: <Widget>[
+          UserAccountsDrawerHeader(
+            accountEmail: Text(notify.account.entity.updatedAt.toString()),
+            accountName: Text(notify.account.entity.name),
+          ),
+          ListTile(
+            title: Text('User Setting'),
+            onTap: () => Navigator.of(context).popAndPushNamed(
+              UserSettingPage.routeName,
+              arguments: notify.account,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 @immutable
 class HomePage extends StatelessWidget {
   const HomePage._({Key key}) : super(key: key);
@@ -79,6 +105,7 @@ class HomePage extends StatelessWidget {
     final notify = Provider.of<AccountNotifier>(context);
     return Scaffold(
       appBar: AppBar(),
+      drawer: AppDrawer(),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,

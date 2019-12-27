@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'pages/root_page.dart';
+import 'router.dart';
 
 @immutable
 class App extends StatelessWidget {
@@ -13,6 +15,7 @@ class App extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const RootPage(),
+      onGenerateRoute: Provider.of<Router>(context).onGenerateRoute,
     );
   }
 }

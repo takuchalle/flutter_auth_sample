@@ -11,7 +11,7 @@ class RootPage extends StatelessWidget {
   const RootPage({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<Authenticator>(context);
+    final auth = Provider.of<Authenticator>(context, listen: false);
     return StreamBuilder(
       stream: auth.onAuthStateChanged,
       builder: (context, snap) {
