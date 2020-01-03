@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
+import 'l10n.dart';
 import 'pages/root_page.dart';
 import 'router.dart';
 
@@ -12,13 +13,13 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       localizationsDelegates: [
-        // ... app-specific localization delegate[s] here
+        const SampleLocalizationsDelegate(),
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: [
-        const Locale('ja'),
+      supportedLocales: const [
+        Locale('ja', ''),
       ],
       title: 'Flutter Demo',
       theme: ThemeData(

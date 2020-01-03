@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../auth/authenticator.dart';
+import '../l10n.dart';
 import '../models/models.dart';
 import '../pages/user_setting_page.dart';
 
@@ -34,6 +35,12 @@ class _ChangeNameFormState extends State<ChangeNameForm> {
   void initState() {
     _controller = TextEditingController(text: widget.user.entity.name);
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    _controller.text = widget.user.entity.name;
+    super.didChangeDependencies();
   }
 
   @override
@@ -103,6 +110,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = Provider.of<_ViewModel>(context);
     final notify = Provider.of<AccountNotifier>(context);
+    print(notify.account.entity.name);
     return Scaffold(
       appBar: AppBar(),
       drawer: AppDrawer(),
@@ -113,7 +121,7 @@ class HomePage extends StatelessWidget {
             Text('uid: ${notify.account.id}'),
             Text('name: ${notify.account.entity.name}'),
             RaisedButton(
-              child: const Text('Logout'),
+              child: Text(L10n.of(context).logout),
               onPressed: model.auth.signOut,
             ),
             ChangeNameForm(notify.account),

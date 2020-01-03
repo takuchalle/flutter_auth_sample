@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auth_sample/auth/authenticator.dart';
 import 'package:provider/provider.dart';
 
+import '../l10n.dart';
 import '../models/models.dart';
 
 class _ViewModel {
@@ -19,17 +20,17 @@ class UserSettingList extends StatelessWidget {
     final auth = Provider.of<Authenticator>(context, listen: false);
     return Column(
       children: <Widget>[
-        CircleAvatar(
-          backgroundImage: NetworkImage(model.user.profileURL),
-        ),
         ListTile(
-          leading: Icon(Icons.person),
+          leading: CircleAvatar(
+            backgroundImage: NetworkImage(model.user.profileURL),
+            maxRadius: 16,
+          ),
           title: Text(model.user.name),
           trailing: Icon(Icons.edit),
         ),
         ListTile(
           leading: Icon(Icons.exit_to_app),
-          title: Text('logout'),
+          title: Text(L10n.of(context).logout),
           onTap: () async {
             await auth.signOut();
             Navigator.pop(context);
