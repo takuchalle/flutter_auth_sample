@@ -22,9 +22,10 @@ class App extends StatelessWidget {
         Locale('ja', ''),
       ],
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme:
+          ThemeData(primarySwatch: Colors.grey, brightness: Brightness.light),
+      darkTheme:
+          ThemeData(primarySwatch: Colors.grey, brightness: Brightness.dark),
       home: const RootPage(),
       onGenerateRoute: Provider.of<Router>(context).onGenerateRoute,
     );
